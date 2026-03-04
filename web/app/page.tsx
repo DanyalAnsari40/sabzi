@@ -1,6 +1,6 @@
 import Link from "next/link";
-import Image from "next/image";
 import { Navbar } from "@/components/public/navbar";
+import { HeroImage } from "@/components/public/hero-image";
 import { Footer } from "@/components/public/footer";
 import { CategoryCard } from "@/components/public/category-card";
 import { ProductCard } from "@/components/public/product-card";
@@ -10,8 +10,8 @@ import { categories, products } from "@/lib/mock-data";
 import { ArrowRight, ChevronLeft, ChevronRight, CheckCircle, Leaf, Package, TrendingUp } from "lucide-react";
 
 export const metadata = {
-  title: "Sabzi - Halal Meat, Vegetables & Fruits | B2B Wholesale",
-  description: "Halal-certified meat, fresh vegetables & fruits. Wholesale for restaurants, hotels & food businesses.",
+  title: "Sabzi - Sell With Us | List Your Products & Connect With Buyers",
+  description: "Sellers: list your halal meat, vegetables, fruits & more. Enter your product details, we share with our admin and connect you with buyers.",
 };
 
 export default function HomePage() {
@@ -46,19 +46,19 @@ export default function HomePage() {
                   <div className="absolute right-12 top-16 w-4 h-4 rounded-full bg-primary/20 pointer-events-none" aria-hidden />
 
                   <p className="text-2xl md:text-3xl text-primary mb-2 animate-fade-in-up" style={{ fontFamily: "var(--font-dancing-script), cursive" }}>
-                    Welcome
+                    Welcome, Sellers
                   </p>
                   <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 leading-tight animate-fade-in-up" style={{ animationDelay: "0.05s" }}>
-                    <span className="text-foreground">EAT HEALTHY</span>
+                    <span className="text-foreground">LIST YOUR PRODUCTS</span>
                     <br />
-                    <span className="text-primary">STAY HEALTHY</span>
+                    <span className="text-primary">WE CONNECT YOU</span>
                   </h1>
                   <p className="text-muted-foreground text-base md:text-lg mb-6 max-w-lg animate-fade-in-up" style={{ animationDelay: "0.1s" }}>
-                    Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
+                    Select the products you want to sell, enter your item details, and submit. Our admin panel receives your data and we will get in touch to connect you with buyers.
                   </p>
                   <div className="animate-fade-in-up" style={{ animationDelay: "0.15s" }}>
                     <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-lg" asChild>
-                      <Link href="/contact">Contact us</Link>
+                      <Link href="/categories">Browse & list products</Link>
                     </Button>
                   </div>
 
@@ -80,14 +80,7 @@ export default function HomePage() {
                     <LeafBranchRight className="w-full h-full" />
                   </div>
                   <div className="absolute top-8 right-8 w-8 h-8 rounded-full bg-primary/15 pointer-events-none" aria-hidden />
-                  <Image
-                    src="/images/hero-banner.jpg"
-                    alt="Fresh produce – vegetables and fruits in a bag"
-                    fill
-                    className="object-cover object-center"
-                    priority
-                    sizes="(max-width: 1024px) 100vw, 50vw"
-                  />
+                  <HeroImage />
                 </div>
               </div>
             </div>
@@ -104,9 +97,9 @@ export default function HomePage() {
               <Package className="w-7 h-7 text-foreground/80" strokeWidth={1.5} />
             </div>
             <div className="flex-1 text-center md:text-left">
-              <h3 className="font-bold text-lg mb-2">Always Fresh</h3>
+              <h3 className="font-bold text-lg mb-2">Select products to sell</h3>
               <p className="text-muted-foreground text-sm mb-3">
-                Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt.
+                Browse categories, pick the items you supply, and add your details. Our team receives your listing and will reach out.
               </p>
               <span className="text-sm font-semibold text-foreground/80 inline-flex items-center gap-1 group-hover:gap-2 transition-all">
                 FIND OUT MORE <ArrowRight className="w-4 h-4" />
@@ -114,16 +107,16 @@ export default function HomePage() {
             </div>
           </Link>
           <Link
-            href="/categories"
+            href="/request-quote"
             className="group flex flex-col md:flex-row items-center gap-4 md:gap-6 px-6 md:px-8 py-8 md:py-10 bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
           >
             <div className="flex-shrink-0 w-14 h-14 rounded-full border-2 border-white/40 flex items-center justify-center">
               <Leaf className="w-7 h-7" strokeWidth={1.5} />
             </div>
             <div className="flex-1 text-center md:text-left">
-              <h3 className="font-bold text-lg mb-2">100% Organic</h3>
+              <h3 className="font-bold text-lg mb-2">Enter item details</h3>
               <p className="text-primary-foreground/90 text-sm mb-3">
-                Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt.
+                Add quantity, notes, and requirements. Your submission goes to our admin panel so we can connect you with buyers.
               </p>
               <span className="text-sm font-semibold inline-flex items-center gap-1 group-hover:gap-2 transition-all">
                 FIND OUT MORE <ArrowRight className="w-4 h-4" />
@@ -139,10 +132,10 @@ export default function HomePage() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
             <div className="text-center mb-12 animate-fade-in-down">
               <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-4">
-                Shop by Category
+                Categories to list under
               </h2>
               <p className="text-lg text-foreground/60 font-medium">
-                Explore our wide range of premium products
+                Choose a category, then add the products you want to sell
               </p>
             </div>
 
@@ -176,10 +169,10 @@ export default function HomePage() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
             <div className="text-center mb-12 animate-fade-in-down">
               <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-4">
-                Featured Products
+                Products you can list
               </h2>
               <p className="text-lg text-foreground/60 font-medium">
-                Our most popular wholesale offerings
+                Select products, enter your details, and we will get back to you
               </p>
             </div>
 
@@ -218,10 +211,10 @@ export default function HomePage() {
             <div className="animate-fade-in-down">
               <TrendingUp className="w-16 h-16 mx-auto mb-8 opacity-90 animate-float" />
               <h2 className="text-4xl md:text-5xl font-bold mb-6 leading-tight">
-                Ready to Scale Your Business?
+                Ready to sell with us?
               </h2>
               <p className="text-lg md:text-xl mb-10 opacity-95 max-w-2xl mx-auto leading-relaxed font-medium">
-                Get personalized quotes and dedicated support from our wholesale experts.
+                List your products and enter your item details. Our admin gets your data and we will connect you with buyers.
               </p>
               <Button
                 size="lg"
@@ -229,7 +222,7 @@ export default function HomePage() {
                 asChild
               >
                 <Link href="/request-quote">
-                  Request a Quote Today
+                  Submit your listing
                   <ArrowRight className="w-5 h-5" />
                 </Link>
               </Button>

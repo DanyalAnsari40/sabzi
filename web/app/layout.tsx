@@ -9,8 +9,8 @@ const _geistMono = Geist_Mono({ subsets: ["latin"] });
 const dancingScript = Dancing_Script({ subsets: ["latin"], variable: "--font-dancing-script" });
 
 export const metadata: Metadata = {
-  title: 'Sabzi - Halal Meat, Fresh Vegetables & Fruits | B2B Wholesale',
-  description: 'Halal-certified meat, fresh vegetables, fruits, dairy & grains. Premium B2B wholesale for restaurants, retailers & caterers. Bulk pricing, reliable delivery.',
+  title: 'Sabzi - Sell With Us | List Products & Connect With Buyers',
+  description: 'Sellers: list your halal meat, vegetables, fruits and more. Enter product details; our admin receives your data and we connect you with buyers.',
   generator: 'v0.app',
   icons: {
     icon: [

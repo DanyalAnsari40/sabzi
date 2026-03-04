@@ -1,15 +1,15 @@
-import Image from "next/image";
 import Link from "next/link";
 import { Category } from "@/lib/types";
 import { Card } from "@/components/ui/card";
+import { SafeImage } from "@/components/public/safe-image";
 
 export function CategoryCard({ category }: { category: Category }) {
   return (
     <Link href={`/categories/${category.slug}`}>
       <Card className="h-full overflow-hidden hover:shadow-2xl transition-all cursor-pointer group border-0 hover-lift">
-        {/* Category Image */}
+        {/* Category Image – SafeImage shows placeholder if image fails */}
         <div className="relative h-56 bg-muted overflow-hidden">
-          <Image
+          <SafeImage
             src={category.image}
             alt={category.name}
             fill

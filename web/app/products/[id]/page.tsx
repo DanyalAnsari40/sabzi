@@ -20,6 +20,7 @@ import { useRouter } from "next/navigation";
 
 export default function ProductDetailPage() {
   const params = useParams();
+  const router = useRouter();
   const id = typeof params?.id === "string" ? params.id : "";
   const product = getProductById(id);
   const [quantity, setQuantity] = useState<string>(
@@ -177,8 +178,11 @@ export default function ProductDetailPage() {
                   </div>
                 )}
 
-                {/* Quantity and CTA */}
+                {/* Quantity and CTA – seller enters details, admin gets data */}
                 <div className="space-y-4">
+                  <p className="text-sm text-foreground/70">
+                    Enter the quantity and details you want to sell. Your submission is sent to our admin panel and we will connect with you.
+                  </p>
                   <div>
                     <label className="text-sm font-semibold text-foreground mb-2 block">
                       Quantity ({product.unit})
@@ -202,16 +206,16 @@ export default function ProductDetailPage() {
                     onClick={handleAddToRFQ}
                   >
                     <ShoppingCart className="w-4 h-4" />
-                    Request Quote
+                    Submit & request quote
                   </Button>
                 </div>
 
                 {/* Benefits */}
                 <div className="mt-8 pt-8 border-t border-border space-y-4">
                   {[
-                    { icon: Truck, text: "Fast Delivery" },
-                    { icon: Leaf, text: "Premium Quality" },
-                    { icon: Check, text: "Best Prices" },
+                    { icon: Truck, text: "We connect you with buyers" },
+                    { icon: Leaf, text: "List your products here" },
+                    { icon: Check, text: "Admin receives your details" },
                   ].map((benefit, i) => (
                     <div key={i} className="flex items-center gap-3">
                       <benefit.icon className="w-5 h-5 text-primary" />

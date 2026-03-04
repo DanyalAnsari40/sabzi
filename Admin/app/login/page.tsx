@@ -88,8 +88,8 @@ export default function AdminLogin() {
               <Leaf className="w-8 h-8 text-white" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-foreground">WholeGrains</h1>
-              <p className="text-sm text-foreground/60">Admin Portal</p>
+              <h1 className="text-2xl font-bold text-foreground">Sabzi</h1>
+              <p className="text-sm text-foreground/70 font-medium">Halal & Fresh – Admin</p>
             </div>
           </div>
         </div>
@@ -186,12 +186,12 @@ export default function AdminLogin() {
             <p className="text-xs font-semibold text-primary mb-2">Default credentials (run seed once):</p>
             <p className="text-xs text-foreground/70">Email: <code className="bg-white/50 px-2 py-1 rounded">admin@wholegrains.com</code></p>
             <p className="text-xs text-foreground/70">Password: <code className="bg-white/50 px-2 py-1 rounded">Admin@123</code></p>
-            <p className="text-xs text-foreground/50 mt-2">First time? POST /api/seed-admin to create this user.</p>
+            <p className="text-xs text-foreground/70 mt-2">First time? POST /api/seed-admin to create this user.</p>
           </div>
         </Card>
 
         {/* Footer */}
-        <p className="text-center text-foreground/60 text-sm mt-8">
+        <p className="text-center text-foreground/75 text-sm mt-8 font-medium">
           Need help?{' '}
           <a href="mailto:support@wholegrains.com" className="text-primary hover:text-primary/80 font-medium">
             Contact support

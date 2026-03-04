@@ -14,10 +14,10 @@ export function Footer() {
               <div className="p-2 bg-gradient-to-br from-primary to-primary/80 rounded-lg">
                 <Leaf className="w-5 h-5 text-white" />
               </div>
-              <span className="font-bold text-lg text-foreground">WholeGrains</span>
+              <span className="font-bold text-lg text-foreground">Sabzi</span>
             </div>
             <p className="text-sm text-foreground/70 mb-6 leading-relaxed">
-              Premium wholesale grocery solutions for businesses worldwide.
+              Halal meat, fresh vegetables, fruits & more. Premium B2B wholesale for businesses worldwide.
             </p>
             <div className="space-y-3">
               <div className="flex items-center gap-3 text-sm text-foreground/60">
@@ -107,7 +107,7 @@ export function Footer() {
         <div className="border-t border-border/50 pt-8">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <p className="text-sm text-foreground/60">
-              © {year} WholeGrains Co. All rights reserved.
+              © {year} Sabzi. Halal meat, vegetables & fruits – B2B wholesale.
             </p>
             <div className="flex items-center gap-4" aria-label="Social links">
               <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="text-foreground/60 hover:text-primary transition-colors p-2 rounded-full hover:bg-primary/10" aria-label="Twitter">

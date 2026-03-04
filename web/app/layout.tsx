@@ -8,8 +8,8 @@ const _geist = Geist({ subsets: ["latin"] });
 const _geistMono = Geist_Mono({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: 'WholeGrains - B2B Wholesale Grocery Marketplace',
-  description: 'Premium wholesale grocery solutions for businesses. Fresh produce, dairy, grains, and proteins at competitive bulk pricing.',
+  title: 'Sabzi - Halal Meat, Fresh Vegetables & Fruits | B2B Wholesale',
+  description: 'Halal-certified meat, fresh vegetables, fruits, dairy & grains. Premium B2B wholesale for restaurants, retailers & caterers. Bulk pricing, reliable delivery.',
   generator: 'v0.app',
   icons: {
     icon: [
@@ -37,7 +37,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className="font-sans antialiased">
+      <body className="font-sans antialiased" suppressHydrationWarning>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           {children}
           <Analytics />

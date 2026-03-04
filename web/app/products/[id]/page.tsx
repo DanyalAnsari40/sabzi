@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Image from "next/image";
 import Link from "next/link";
+import { SafeImage } from "@/components/public/safe-image";
 import { useParams } from "next/navigation";
 import { Navbar } from "@/components/public/navbar";
 import { Footer } from "@/components/public/footer";
@@ -88,7 +88,7 @@ export default function ProductDetailPage() {
               {/* Image */}
               <div className="flex flex-col gap-4">
                 <div className="relative h-96 bg-muted rounded-lg overflow-hidden">
-                  <Image
+                  <SafeImage
                     src={product.image}
                     alt={product.name}
                     fill

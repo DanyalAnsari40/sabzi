@@ -96,7 +96,7 @@ export default function AdminProductsPage() {
                 </TableRow>
               ) : (
                 filteredProducts.map((product) => (
-                  <TableRow key={product.id} className="hover:bg-muted/30">
+                  <TableRow key={product.id} className="hover:bg-muted/70 transition-colors">
                     <TableCell className="font-medium">{product.name}</TableCell>
                     <TableCell>{product.category.name}</TableCell>
                     <TableCell>₹{product.price.toFixed(2)}</TableCell>
@@ -114,7 +114,7 @@ export default function AdminProductsPage() {
                       {product.minOrderQuantity} {product.unit}
                     </TableCell>
                     <TableCell>
-                      <Badge variant="outline" className="bg-green-50">
+                      <Badge variant="outline" className="bg-emerald-100 text-emerald-800 border-emerald-200 dark:bg-emerald-900/40 dark:text-emerald-200 dark:border-emerald-700">
                         Active
                       </Badge>
                     </TableCell>
@@ -123,6 +123,7 @@ export default function AdminProductsPage() {
                         <Button
                           variant="ghost"
                           size="sm"
+                          className="hover:bg-muted hover:text-foreground"
                           onClick={() => handleEditClick(product)}
                         >
                           <Edit2 className="w-4 h-4" />
@@ -130,7 +131,7 @@ export default function AdminProductsPage() {
                         <Button
                           variant="ghost"
                           size="sm"
-                          className="text-destructive hover:text-destructive"
+                          className="text-destructive hover:bg-destructive/10 hover:text-destructive"
                         >
                           <Trash2 className="w-4 h-4" />
                         </Button>

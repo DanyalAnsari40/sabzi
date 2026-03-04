@@ -9,8 +9,8 @@ import { categories, products } from "@/lib/mock-data";
 import { ArrowRight, CheckCircle, Leaf, TrendingUp, Zap, Shield } from "lucide-react";
 
 export const metadata = {
-  title: "WholeGrains - B2B Wholesale Grocery",
-  description: "Premium wholesale grocery solutions for restaurants, hotels, and food businesses",
+  title: "Sabzi - Halal Meat, Vegetables & Fruits | B2B Wholesale",
+  description: "Halal-certified meat, fresh vegetables & fruits. Wholesale for restaurants, hotels & food businesses.",
 };
 
 export default function HomePage() {
@@ -42,11 +42,11 @@ export default function HomePage() {
                 </div>
 
                 <h1 className="text-5xl md:text-6xl font-bold text-foreground mb-6 leading-tight animate-fade-in-up" style={{animationDelay: '0.1s'}}>
-                  Premium Wholesale Grocery Made Simple
+                  Halal Meat, Fresh Vegetables & Fruits – Wholesale Made Simple
                 </h1>
 
                 <p className="text-xl text-foreground/70 mb-8 leading-relaxed animate-fade-in-up" style={{animationDelay: '0.2s'}}>
-                  Direct access to fresh produce, dairy, grains, and proteins at wholesale prices. Bulk quantities, competitive pricing, and reliable delivery for your business.
+                  Halal-certified meat, farm-fresh vegetables, fruits, dairy & grains at wholesale prices. Bulk quantities, competitive pricing, and reliable delivery for your business.
                 </p>
 
                 <div className="flex flex-col sm:flex-row gap-4 mb-8 animate-fade-in-up" style={{animationDelay: '0.3s'}}>
@@ -64,8 +64,8 @@ export default function HomePage() {
                 {/* Benefits */}
                 <div className="space-y-3 animate-fade-in-up" style={{animationDelay: '0.4s'}}>
                   {[
-                    "Certified organic & fresh produce",
-                    "Competitive bulk pricing",
+                    "Halal-certified meat & poultry",
+                    "Fresh vegetables & fruits, organic options",
                     "Fast & reliable delivery",
                   ].map((benefit, i) => (
                     <div key={i} className="flex items-center gap-3 hover:translate-x-2 transition-transform duration-300">
@@ -81,7 +81,7 @@ export default function HomePage() {
                 <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 to-secondary/10 rounded-2xl" />
                 <Image
                   src="/images/hero-banner.jpg"
-                  alt="Premium wholesale vegetables and fresh produce"
+                  alt="Halal meat, fresh vegetables and fruits – wholesale produce"
                   fill
                   className="object-cover rounded-2xl shadow-2xl hover-lift"
                   priority

@@ -51,9 +51,9 @@ export function Navbar() {
             </div>
             <div className="hidden sm:flex flex-col">
               <span className="text-lg font-bold bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
-                WholeGrains
+                Sabzi
               </span>
-              <span className="text-xs font-medium text-primary/70">Premium Wholesale</span>
+              <span className="text-xs font-medium text-primary/70">Halal Meat, Vegetables & Fruits</span>
             </div>
           </Link>
 

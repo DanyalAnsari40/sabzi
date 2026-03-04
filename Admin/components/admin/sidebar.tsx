@@ -33,8 +33,8 @@ export function AdminSidebar() {
           <Leaf className="w-5 h-5 text-primary" />
         </div>
         <div>
-          <span className="font-bold text-lg text-foreground block">WholeGrains</span>
-          <span className="text-xs text-foreground/60">Admin Panel</span>
+          <span className="font-bold text-lg text-foreground block">Sabzi</span>
+          <span className="text-xs text-foreground/60">Halal & Fresh – Admin</span>
         </div>
       </div>
 
@@ -48,7 +48,7 @@ export function AdminSidebar() {
               <Button
                 variant={isActive ? "default" : "ghost"}
                 className={`w-full justify-start gap-3 transition-all ${
-                  isActive ? "bg-primary text-primary-foreground shadow-md" : "hover:bg-sidebar-accent/30"
+                  isActive ? "bg-primary text-primary-foreground shadow-md" : "hover:bg-primary/15 hover:text-foreground text-foreground"
                 }`}
               >
                 <link.icon className="w-5 h-5" />
@@ -66,7 +66,7 @@ export function AdminSidebar() {
           <p className="text-sm font-semibold text-foreground">Admin User</p>
           <p className="text-xs text-foreground/60">admin@wholegrains.com</p>
         </div>
-        <Button variant="outline" className="w-full justify-start gap-3 text-destructive hover:text-destructive" onClick={handleLogout}>
+        <Button variant="outline" className="w-full justify-start gap-3 text-destructive hover:bg-destructive/10 hover:text-destructive border-destructive/30" onClick={handleLogout}>
           <LogOut className="w-4 h-4" />
           Sign Out
         </Button>

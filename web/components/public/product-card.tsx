@@ -1,6 +1,6 @@
-import Image from "next/image";
 import Link from "next/link";
 import { Product } from "@/lib/types";
+import { SafeImage } from "@/components/public/safe-image";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { formatPrice } from "@/lib/format";
@@ -12,7 +12,7 @@ export function ProductCard({ product }: { product: Product }) {
       <Card className="h-full overflow-hidden hover:shadow-2xl transition-all hover:border-primary/60 cursor-pointer group border-0">
         {/* Product Image */}
         <div className="relative h-56 bg-muted overflow-hidden">
-          <Image
+          <SafeImage
             src={product.image}
             alt={product.name}
             fill

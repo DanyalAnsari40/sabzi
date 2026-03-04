@@ -1,46 +1,46 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useParams } from "next/navigation";
 import { Navbar } from "@/components/public/navbar";
 import { Footer } from "@/components/public/footer";
 import { ProductCard } from "@/components/public/product-card";
+import { Breadcrumb } from "@/components/public/breadcrumb";
+import { EmptyState } from "@/components/public/empty-state";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { products, getProductById } from "@/lib/mock-data";
-import {
-  ArrowLeft,
-  Leaf,
-  Truck,
-  Check,
-  Star,
-  ShoppingCart,
-} from "lucide-react";
+import { formatPrice } from "@/lib/format";
+import { Leaf, Truck, Check, ShoppingCart } from "lucide-react";
 import { useRouter } from "next/navigation";
 
-export default function ProductDetailPage({ params }: { params: { id: string } }) {
-  const router = useRouter();
-  const product = getProductById(params.id);
+export default function ProductDetailPage() {
+  const params = useParams();
+  const id = typeof params?.id === "string" ? params.id : "";
+  const product = getProductById(id);
   const [quantity, setQuantity] = useState<string>(
     product?.minOrderQuantity.toString() || "1"
   );
+
+  useEffect(() => {
+    if (product) setQuantity(product.minOrderQuantity.toString());
+  }, [product?.id]);
 
   if (!product) {
     return (
       <div className="min-h-screen flex flex-col bg-background">
         <Navbar />
-        <div className="flex-1 flex items-center justify-center">
-          <div className="text-center">
-            <h1 className="text-2xl font-bold text-foreground mb-4">
-              Product not found
-            </h1>
-            <Button asChild>
-              <Link href="/categories">Back to Products</Link>
-            </Button>
-          </div>
+        <div className="flex-1 flex items-center justify-center py-12 px-4">
+          <EmptyState
+            title="Product not found"
+            description="The product you're looking for doesn't exist or has been removed."
+            actionLabel="Back to Products"
+            actionHref="/categories"
+          />
         </div>
         <Footer />
       </div>
@@ -72,23 +72,12 @@ export default function ProductDetailPage({ params }: { params: { id: string } }
         {/* Breadcrumb */}
         <section className="py-4 border-b border-border">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex items-center gap-4">
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => router.back()}
-                className="gap-2"
-              >
-                <ArrowLeft className="w-4 h-4" />
-                Back
-              </Button>
-              <span className="text-sm text-foreground/60">/</span>
-              <Link href="/categories" className="text-sm hover:text-primary">
-                Categories
-              </Link>
-              <span className="text-sm text-foreground/60">/</span>
-              <span className="text-sm font-semibold">{product.name}</span>
-            </div>
+            <Breadcrumb
+              items={[
+                { label: "Categories", href: "/categories" },
+                { label: product.name },
+              ]}
+            />
           </div>
         </section>
 
@@ -129,7 +118,7 @@ export default function ProductDetailPage({ params }: { params: { id: string } }
                       Price per {product.unit}
                     </p>
                     <p className="text-5xl font-bold text-primary mb-4">
-                      ₹{product.price}
+                      {formatPrice(product.price)}
                     </p>
                     <p className="text-sm text-foreground/60">
                       SKU: {product.sku}

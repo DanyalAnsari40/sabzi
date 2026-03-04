@@ -17,12 +17,14 @@ export function CategoryCard({ category }: { category: Category }) {
           />
           {/* Gradient Overlay */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent group-hover:from-black/70 group-hover:via-black/30 transition-all duration-300 flex items-end">
-            {/* Badge */}
-            <div className="absolute top-4 right-4">
-              <span className="px-3 py-1 bg-primary/90 text-white text-xs font-bold rounded-full backdrop-blur-sm">
-                Popular
-              </span>
-            </div>
+            {/* Badge - only when category is featured */}
+            {category.isFeatured && (
+              <div className="absolute top-4 right-4">
+                <span className="px-3 py-1 bg-primary/90 text-white text-xs font-bold rounded-full backdrop-blur-sm">
+                  Popular
+                </span>
+              </div>
+            )}
 
             <div className="p-6 w-full">
               <h3 className="font-bold text-white text-xl mb-2 group-hover:text-primary transition-colors duration-300">

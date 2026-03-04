@@ -4,12 +4,15 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import { Navbar } from "@/components/public/navbar";
 import { Footer } from "@/components/public/footer";
+import { FormSuccess } from "@/components/public/form-success";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { products, requestsForQuote } from "@/lib/mock-data";
-import { Plus, Trash2, Check } from "lucide-react";
+import { Label } from "@/components/ui/label";
+import { products } from "@/lib/mock-data";
+import { formatPrice } from "@/lib/format";
+import { Plus, Trash2 } from "lucide-react";
 
 interface RFQItemLocal {
   productId: string;
@@ -17,10 +20,14 @@ interface RFQItemLocal {
   unit: string;
 }
 
+type FormErrors = Partial<Record<"items" | "companyName" | "contactPerson" | "email" | "phone" | "deliveryAddress", string>>;
+
 export default function RequestQuotePage() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errors, setErrors] = useState<FormErrors>({});
 
   // Initial item from URL params if coming from product detail
   const initialProductId = searchParams.get("product");
@@ -61,55 +68,46 @@ export default function RequestQuotePage() {
   };
 
   const handleFormChange = (field: string, value: string) => {
-    setFormData({ ...formData, [field]: value });
+    setFormData((prev) => ({ ...prev, [field]: value }));
+    if (errors[field as keyof FormErrors]) {
+      setErrors((prev) => ({ ...prev, [field]: undefined }));
+    }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    // Validation
-    if (items.length === 0) {
-      alert("Please add at least one product");
+    const newErrors: FormErrors = {};
+    if (items.length === 0) newErrors.items = "Please add at least one product";
+    if (!formData.companyName?.trim()) newErrors.companyName = "Company name is required";
+    if (!formData.contactPerson?.trim()) newErrors.contactPerson = "Contact person is required";
+    if (!formData.email?.trim()) newErrors.email = "Email is required";
+    if (!formData.phone?.trim()) newErrors.phone = "Phone is required";
+    if (!formData.deliveryAddress?.trim()) newErrors.deliveryAddress = "Delivery address is required";
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
       return;
     }
 
-    if (!formData.companyName || !formData.email || !formData.phone) {
-      alert("Please fill in all required fields");
-      return;
-    }
-
-    // In a real app, this would send to backend
-    // For now, we'll show success and create a local RFQ
-    console.log("RFQ Submitted:", {
-      items,
-      ...formData,
-    });
-
+    setIsSubmitting(true);
+    setErrors({});
+    await new Promise((r) => setTimeout(r, 600));
+    console.log("RFQ Submitted:", { items, ...formData });
     setSubmitted(true);
-    setTimeout(() => {
-      router.push("/");
-    }, 3000);
+    setIsSubmitting(false);
+    setTimeout(() => router.push("/"), 3000);
   };
 
   if (submitted) {
     return (
       <div className="min-h-screen flex flex-col bg-background">
         <Navbar />
-        <div className="flex-1 flex items-center justify-center">
-          <Card className="p-12 text-center max-w-md w-full mx-4 border-primary/30 bg-green-50">
-            <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-6">
-              <Check className="w-8 h-8 text-primary-foreground" />
-            </div>
-            <h2 className="text-2xl font-bold text-foreground mb-2">
-              Quote Request Submitted
-            </h2>
-            <p className="text-foreground/60 mb-6">
-              Thank you! We will review your request and send you a quote within 24 hours.
-            </p>
-            <Button asChild className="w-full">
-              <a href="/">Return to Home</a>
-            </Button>
-          </Card>
+        <div className="flex-1 flex items-center justify-center py-12">
+          <FormSuccess
+            title="Quote Request Submitted"
+            message="Thank you! We will review your request and send you a quote within 24 hours."
+            actionLabel="Return to Home"
+            actionHref="/"
+          />
         </div>
         <Footer />
       </div>
@@ -143,6 +141,9 @@ export default function RequestQuotePage() {
                   Products
                 </h2>
 
+                {errors.items && (
+                  <p className="text-sm text-destructive mb-2">{errors.items}</p>
+                )}
                 {items.length === 0 ? (
                   <div className="text-center py-12">
                     <p className="text-foreground/60 mb-4">
@@ -177,7 +178,7 @@ export default function RequestQuotePage() {
                               >
                                 {products.map((p) => (
                                   <option key={p.id} value={p.id}>
-                                    {p.name} - ₹{p.price}/{p.unit}
+                                    {p.name} - {formatPrice(p.price)}/{p.unit}
                                   </option>
                                 ))}
                               </select>
@@ -255,92 +256,120 @@ export default function RequestQuotePage() {
 
                 <div className="space-y-4">
                   <div>
-                    <label className="text-sm font-semibold text-foreground block mb-2">
+                    <Label htmlFor="rfq-company" className="text-sm font-semibold">
                       Company Name *
-                    </label>
+                    </Label>
                     <Input
+                      id="rfq-company"
                       type="text"
                       value={formData.companyName}
                       onChange={(e) =>
                         handleFormChange("companyName", e.target.value)
                       }
                       placeholder="Your company name"
-                      required
+                      className="mt-2"
+                      aria-invalid={!!errors.companyName}
                     />
+                    {errors.companyName && (
+                      <p className="text-sm text-destructive mt-1">{errors.companyName}</p>
+                    )}
                   </div>
 
                   <div>
-                    <label className="text-sm font-semibold text-foreground block mb-2">
+                    <Label htmlFor="rfq-contact" className="text-sm font-semibold">
                       Contact Person *
-                    </label>
+                    </Label>
                     <Input
+                      id="rfq-contact"
                       type="text"
                       value={formData.contactPerson}
                       onChange={(e) =>
                         handleFormChange("contactPerson", e.target.value)
                       }
                       placeholder="Your name"
+                      className="mt-2"
+                      aria-invalid={!!errors.contactPerson}
                     />
+                    {errors.contactPerson && (
+                      <p className="text-sm text-destructive mt-1">{errors.contactPerson}</p>
+                    )}
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <label className="text-sm font-semibold text-foreground block mb-2">
+                      <Label htmlFor="rfq-email" className="text-sm font-semibold">
                         Email *
-                      </label>
+                      </Label>
                       <Input
+                        id="rfq-email"
                         type="email"
                         value={formData.email}
                         onChange={(e) =>
                           handleFormChange("email", e.target.value)
                         }
                         placeholder="your@email.com"
-                        required
+                        className="mt-2"
+                        aria-invalid={!!errors.email}
                       />
+                      {errors.email && (
+                        <p className="text-sm text-destructive mt-1">{errors.email}</p>
+                      )}
                     </div>
 
                     <div>
-                      <label className="text-sm font-semibold text-foreground block mb-2">
+                      <Label htmlFor="rfq-phone" className="text-sm font-semibold">
                         Phone *
-                      </label>
+                      </Label>
                       <Input
+                        id="rfq-phone"
                         type="tel"
                         value={formData.phone}
                         onChange={(e) =>
                           handleFormChange("phone", e.target.value)
                         }
                         placeholder="+1-555-0000"
-                        required
+                        className="mt-2"
+                        aria-invalid={!!errors.phone}
                       />
+                      {errors.phone && (
+                        <p className="text-sm text-destructive mt-1">{errors.phone}</p>
+                      )}
                     </div>
                   </div>
 
                   <div>
-                    <label className="text-sm font-semibold text-foreground block mb-2">
+                    <Label htmlFor="rfq-address" className="text-sm font-semibold">
                       Delivery Address *
-                    </label>
+                    </Label>
                     <Textarea
+                      id="rfq-address"
                       value={formData.deliveryAddress}
                       onChange={(e) =>
                         handleFormChange("deliveryAddress", e.target.value)
                       }
                       placeholder="Street address, city, state, zip"
                       rows={3}
-                      required
+                      className="mt-2"
+                      aria-invalid={!!errors.deliveryAddress}
                     />
+                    {errors.deliveryAddress && (
+                      <p className="text-sm text-destructive mt-1">{errors.deliveryAddress}</p>
+                    )}
                   </div>
 
                   <div>
-                    <label className="text-sm font-semibold text-foreground block mb-2">
+                    <Label htmlFor="rfq-notes" className="text-sm font-semibold">
                       Special Notes
-                    </label>
+                    </Label>
                     <Textarea
+                      id="rfq-notes"
                       value={formData.notes}
                       onChange={(e) =>
                         handleFormChange("notes", e.target.value)
                       }
                       placeholder="Any special requirements or notes..."
                       rows={3}
+                      className="mt-2"
                     />
                   </div>
                 </div>
@@ -353,11 +382,12 @@ export default function RequestQuotePage() {
                   variant="outline"
                   onClick={() => router.back()}
                   className="flex-1"
+                  disabled={isSubmitting}
                 >
                   Cancel
                 </Button>
-                <Button type="submit" className="flex-1">
-                  Submit Quote Request
+                <Button type="submit" className="flex-1" disabled={isSubmitting}>
+                  {isSubmitting ? "Submitting…" : "Submit Quote Request"}
                 </Button>
               </div>
             </form>

@@ -1,11 +1,18 @@
+import { redirect } from "next/navigation";
+import { getSession } from "@/lib/auth";
 import { AdminSidebar } from "@/components/admin/sidebar";
 import { AdminHeader } from "@/components/admin/header";
 
-export default function AdminLayout({
+export default async function AdminDashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const session = await getSession();
+  if (!session) {
+    redirect("/login");
+  }
+
   return (
     <div className="flex h-screen">
       <AdminSidebar />

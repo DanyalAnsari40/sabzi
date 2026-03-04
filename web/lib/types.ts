@@ -17,6 +17,7 @@ export interface Category {
   description: string;
   slug: string;
   image: string;
+  isFeatured?: boolean;
   createdAt: Date;
   updatedAt: Date;
 }

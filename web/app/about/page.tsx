@@ -89,15 +89,18 @@ export default function AboutPage() {
                   title: "Sustainability",
                   description: "Supporting local farmers and eco-friendly practices",
                 },
-              ].map((value, i) => (
+              ].map((value, i) => {
+                const Icon = value.icon;
+                return (
                 <Card key={i} className="p-6">
-                  <value.icon className="w-10 h-10 text-primary mb-4" />
+                  <Icon className="w-10 h-10 text-primary mb-4" />
                   <h3 className="font-semibold text-foreground mb-2">
                     {value.title}
                   </h3>
                   <p className="text-sm text-foreground/60">{value.description}</p>
                 </Card>
-              ))}
+              );
+              })}
             </div>
           </div>
         </section>

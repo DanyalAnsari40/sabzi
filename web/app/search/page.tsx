@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Navbar } from '@/components/public/navbar';
 import { Footer } from '@/components/public/footer';
 import { ProductCard } from '@/components/public/product-card';
+import { EmptyState } from '@/components/public/empty-state';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -264,16 +265,13 @@ export default function SearchPage() {
                     ))}
                   </div>
                 ) : (
-                  <Card className="p-12 text-center border-0">
-                    <Search className="w-12 h-12 text-foreground/30 mx-auto mb-4" />
-                    <h3 className="text-lg font-semibold text-foreground mb-2">No Products Found</h3>
-                    <p className="text-foreground/60 mb-6">
-                      Try adjusting your filters or search terms
-                    </p>
-                    <Button onClick={resetFilters} variant="outline">
-                      Reset Filters
-                    </Button>
-                  </Card>
+                  <EmptyState
+                    icon={<Search className="w-12 h-12" />}
+                    title="No Products Found"
+                    description="Try adjusting your filters or search terms."
+                    actionLabel="Reset Filters"
+                    onAction={resetFilters}
+                  />
                 )}
               </div>
             </div>

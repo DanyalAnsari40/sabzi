@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { Menu, X, Leaf, ArrowRight } from "lucide-react";
+import { useTheme } from "next-themes";
+import { Menu, X, Leaf, ArrowRight, Search, User, Moon, Sun } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
@@ -18,9 +19,14 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+
   const links = [
     { href: "/", label: "Home" },
     { href: "/categories", label: "Products" },
+    { href: "/search", label: "Search" },
     { href: "/about", label: "About Us" },
     { href: "/contact", label: "Contact" },
   ];
@@ -73,7 +79,24 @@ export function Navbar() {
           </div>
 
           {/* Desktop Actions */}
-          <div className="hidden lg:flex items-center gap-4 animate-fade-in-right">
+          <div className="hidden lg:flex items-center gap-2 animate-fade-in-right">
+            {mounted && (
+              <Button
+                variant="ghost"
+                size="icon"
+                className="rounded-full"
+                onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+                aria-label="Toggle theme"
+              >
+                {theme === "dark" ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+              </Button>
+            )}
+            <Button variant="ghost" size="sm" className="gap-2" asChild>
+              <Link href="/buyer-portal">
+                <User className="w-4 h-4" />
+                Buyer Portal
+              </Link>
+            </Button>
             <Button
               variant="outline"
               className="border-primary/30 hover:bg-primary/5 hover:border-primary/60 font-medium"
@@ -127,18 +150,34 @@ export function Navbar() {
 
                 {/* Mobile Actions */}
                 <div className="space-y-3 pt-2">
+                  {mounted && (
+                    <Button
+                      variant="ghost"
+                      className="w-full justify-start gap-2"
+                      onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+                    >
+                      {theme === "dark" ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+                      {theme === "dark" ? "Light mode" : "Dark mode"}
+                    </Button>
+                  )}
+                  <Button variant="ghost" className="w-full justify-start gap-2 font-semibold" asChild>
+                    <Link href="/buyer-portal" onClick={() => setIsOpen(false)}>
+                      <User className="w-5 h-5" />
+                      Buyer Portal
+                    </Link>
+                  </Button>
                   <Button
                     variant="outline"
                     className="w-full border-primary/30 hover:bg-primary/5 font-semibold"
                     asChild
                   >
-                    <Link href={process.env.NEXT_PUBLIC_ADMIN_URL || "#"} target={process.env.NEXT_PUBLIC_ADMIN_URL ? "_blank" : undefined} rel={process.env.NEXT_PUBLIC_ADMIN_URL ? "noopener noreferrer" : undefined}>Admin Portal</Link>
+                    <Link href={process.env.NEXT_PUBLIC_ADMIN_URL || "#"} target={process.env.NEXT_PUBLIC_ADMIN_URL ? "_blank" : undefined} rel={process.env.NEXT_PUBLIC_ADMIN_URL ? "noopener noreferrer" : undefined} onClick={() => setIsOpen(false)}>Admin Portal</Link>
                   </Button>
                   <Button
                     className="w-full bg-gradient-to-r from-primary to-primary/90 hover:shadow-lg font-semibold"
                     asChild
                   >
-                    <Link href="/request-quote" className="gap-2">
+                    <Link href="/request-quote" className="gap-2" onClick={() => setIsOpen(false)}>
                       Request Quote
                       <ArrowRight className="w-4 h-4" />
                     </Link>

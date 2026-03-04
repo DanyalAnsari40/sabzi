@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Product } from "@/lib/types";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { formatPrice } from "@/lib/format";
 import { ArrowRight } from "lucide-react";
 
 export function ProductCard({ product }: { product: Product }) {
@@ -42,7 +43,7 @@ export function ProductCard({ product }: { product: Product }) {
           <div className="flex items-baseline gap-2 mb-5">
             <p className="text-xs text-foreground/60">Price per {product.unit}</p>
             <p className="font-bold text-2xl text-primary">
-              ₹{product.price.toFixed(2)}
+              {formatPrice(product.price)}
             </p>
           </div>
 

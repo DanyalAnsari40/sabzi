@@ -8,7 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import { Navbar } from '@/components/public/navbar';
 import { Footer } from '@/components/public/footer';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Package, Clock, CheckCircle, AlertCircle, Download, MessageSquare } from 'lucide-react';
+import { Package, Clock, CheckCircle, AlertCircle, Download, MessageSquare, Plus } from 'lucide-react';
 
 export default function BuyerPortal() {
   const [activeTab, setActiveTab] = useState('orders');
@@ -278,5 +278,3 @@ export default function BuyerPortal() {
     </div>
   );
 }
-
-import { Plus } from 'lucide-react';

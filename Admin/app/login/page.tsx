@@ -1,8 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState, useEffect } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card } from '@/components/ui/card';
@@ -11,8 +11,15 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import { Leaf, Eye, EyeOff, AlertCircle } from 'lucide-react';
 
+const ERROR_MESSAGES: Record<string, string> = {
+  required: 'Email and password are required.',
+  invalid: 'Invalid email or password. Please try again.',
+  server: 'Something went wrong. Please try again.',
+};
+
 export default function AdminLogin() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [email, setEmail] = useState('admin@wholegrains.com');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -20,20 +27,49 @@ export default function AdminLogin() {
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
+  useEffect(() => {
+    fetch('/api/auth/session', { credentials: 'include' })
+      .then((r) => r.ok && r.json())
+      .then((data) => {
+        if (data?.user) router.replace('/');
+      })
+      .catch(() => {});
+  }, [router]);
+
+  useEffect(() => {
+    const code = searchParams.get('error');
+    if (code && ERROR_MESSAGES[code]) {
+      setError(ERROR_MESSAGES[code]);
+    }
+  }, [searchParams]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+    const trimmedEmail = email.trim();
+    if (!trimmedEmail || !password) {
+      setError(ERROR_MESSAGES.required);
+      return;
+    }
     setIsLoading(true);
-
-    // Simulate authentication
-    setTimeout(() => {
-      if (email && password.length >= 6) {
-        router.push('/');
-      } else {
-        setError('Invalid email or password. Please try again.');
+    try {
+      const res = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: trimmedEmail, password }),
+        credentials: 'include',
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        window.location.href = '/';
+        return;
       }
+      setError(data.error || ERROR_MESSAGES.invalid);
+    } catch {
+      setError(ERROR_MESSAGES.server);
+    } finally {
       setIsLoading(false);
-    }, 1000);
+    }
   };
 
   return (
@@ -81,6 +117,7 @@ export default function AdminLogin() {
               </Label>
               <Input
                 id="email"
+                name="email"
                 type="email"
                 placeholder="admin@wholegrains.com"
                 value={email}
@@ -98,6 +135,7 @@ export default function AdminLogin() {
               <div className="relative">
                 <Input
                   id="password"
+                  name="password"
                   type={showPassword ? 'text' : 'password'}
                   placeholder="Enter your password"
                   value={password}
@@ -143,11 +181,12 @@ export default function AdminLogin() {
             </Button>
           </form>
 
-          {/* Demo Credentials */}
+          {/* Login Credentials */}
           <div className="mt-8 p-4 bg-primary/5 border border-primary/20 rounded-lg">
-            <p className="text-xs font-semibold text-primary mb-2">Demo Credentials:</p>
+            <p className="text-xs font-semibold text-primary mb-2">Default credentials (run seed once):</p>
             <p className="text-xs text-foreground/70">Email: <code className="bg-white/50 px-2 py-1 rounded">admin@wholegrains.com</code></p>
-            <p className="text-xs text-foreground/70">Password: <code className="bg-white/50 px-2 py-1 rounded">any password (6+ chars)</code></p>
+            <p className="text-xs text-foreground/70">Password: <code className="bg-white/50 px-2 py-1 rounded">Admin@123</code></p>
+            <p className="text-xs text-foreground/50 mt-2">First time? POST /api/seed-admin to create this user.</p>
           </div>
         </Card>
 

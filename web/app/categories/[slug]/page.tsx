@@ -2,9 +2,12 @@ import Link from "next/link";
 import { Navbar } from "@/components/public/navbar";
 import { Footer } from "@/components/public/footer";
 import { ProductCard } from "@/components/public/product-card";
+import { Breadcrumb } from "@/components/public/breadcrumb";
+import { EmptyState } from "@/components/public/empty-state";
 import { Button } from "@/components/ui/button";
 import { categories, getProductsByCategory } from "@/lib/mock-data";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { Package } from "lucide-react";
+import type { Metadata } from "next";
 
 export async function generateStaticParams() {
   return categories.map((cat) => ({
@@ -12,8 +15,27 @@ export async function generateStaticParams() {
   }));
 }
 
-export default function CategoryPage({ params }: { params: { slug: string } }) {
-  const category = categories.find((c) => c.slug === params.slug);
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const category = categories.find((c) => c.slug === slug);
+  if (!category) return { title: "Category Not Found" };
+  return {
+    title: `${category.name} – WholeGrains`,
+    description: category.description,
+  };
+}
+
+export default async function CategoryPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
+  const category = categories.find((c) => c.slug === slug);
 
   if (!category) {
     return (
@@ -44,21 +66,12 @@ export default function CategoryPage({ params }: { params: { slug: string } }) {
         {/* Breadcrumb */}
         <section className="py-4 border-b border-border">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex items-center gap-4">
-              <Button
-                variant="ghost"
-                size="sm"
-                asChild
-                className="gap-2"
-              >
-                <Link href="/categories">
-                  <ArrowLeft className="w-4 h-4" />
-                  Back
-                </Link>
-              </Button>
-              <span className="text-sm text-foreground/60">/</span>
-              <span className="text-sm font-semibold">{category.name}</span>
-            </div>
+            <Breadcrumb
+              items={[
+                { label: "Categories", href: "/categories" },
+                { label: category.name },
+              ]}
+            />
           </div>
         </section>
 
@@ -78,17 +91,13 @@ export default function CategoryPage({ params }: { params: { slug: string } }) {
         <section className="py-16 md:py-20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             {products.length === 0 ? (
-              <div className="text-center py-12">
-                <p className="text-foreground/60 mb-4">
-                  No products available in this category yet
-                </p>
-                <Button asChild>
-                  <Link href="/categories">
-                    Browse Other Categories
-                    <ArrowRight className="w-4 h-4 ml-2" />
-                  </Link>
-                </Button>
-              </div>
+              <EmptyState
+                icon={<Package />}
+                title="No products in this category"
+                description="No products available in this category yet."
+                actionLabel="Browse Other Categories"
+                actionHref="/categories"
+              />
             ) : (
               <>
                 <div className="mb-8">

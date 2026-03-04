@@ -1,12 +1,19 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Leaf, LayoutDashboard, Package, Folder, ShoppingCart, Mail, Settings, LogOut, ChevronRight, BarChart3 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export function AdminSidebar() {
   const pathname = usePathname();
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    await fetch("/api/auth/logout", { method: "POST" });
+    router.push("/login");
+    router.refresh();
+  };
 
   const links = [
     { href: "/", icon: LayoutDashboard, label: "Dashboard", exact: true },
@@ -59,7 +66,7 @@ export function AdminSidebar() {
           <p className="text-sm font-semibold text-foreground">Admin User</p>
           <p className="text-xs text-foreground/60">admin@wholegrains.com</p>
         </div>
-        <Button variant="outline" className="w-full justify-start gap-3 text-destructive hover:text-destructive">
+        <Button variant="outline" className="w-full justify-start gap-3 text-destructive hover:text-destructive" onClick={handleLogout}>
           <LogOut className="w-4 h-4" />
           Sign Out
         </Button>

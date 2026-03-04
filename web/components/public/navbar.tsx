@@ -58,7 +58,7 @@ export function Navbar() {
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center gap-2">
+          <div className="hidden lg:flex items-center gap-1">
             {links.map((link, idx) => (
               <Link
                 key={link.href}
@@ -69,10 +69,10 @@ export function Navbar() {
               >
                 <Button
                   variant="ghost"
-                  className="relative text-base font-medium text-foreground/75 hover:text-primary transition-colors px-4 py-2 group"
+                  className="relative text-base font-semibold text-foreground hover:text-primary hover:bg-primary/15 rounded-lg transition-all duration-200 px-4 py-2 group"
                 >
                   {link.label}
-                  <span className="absolute bottom-1 left-4 w-0 h-0.5 bg-gradient-to-r from-primary to-primary/50 group-hover:w-12 transition-all duration-300" />
+                  <span className="absolute bottom-1.5 left-4 right-4 h-0.5 bg-primary scale-x-0 group-hover:scale-x-100 origin-center transition-transform duration-200 rounded-full" />
                 </Button>
               </Link>
             ))}
@@ -84,14 +84,14 @@ export function Navbar() {
               <Button
                 variant="ghost"
                 size="icon"
-                className="rounded-full"
+                className="rounded-full text-foreground hover:text-primary hover:bg-primary/15 transition-colors duration-200"
                 onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
                 aria-label="Toggle theme"
               >
                 {theme === "dark" ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
               </Button>
             )}
-            <Button variant="ghost" size="sm" className="gap-2" asChild>
+            <Button variant="ghost" size="sm" className="gap-2 font-semibold text-foreground hover:text-primary hover:bg-primary/15 transition-colors duration-200" asChild>
               <Link href="/buyer-portal">
                 <User className="w-4 h-4" />
                 Buyer Portal
@@ -99,14 +99,14 @@ export function Navbar() {
             </Button>
             <Button
               variant="outline"
-              className="border-primary/30 hover:bg-primary/5 hover:border-primary/60 font-medium"
+              className="border-2 border-primary/50 bg-transparent font-semibold text-foreground hover:bg-primary/15 hover:border-primary hover:text-primary transition-all duration-200"
               size="sm"
               asChild
             >
               <Link href={process.env.NEXT_PUBLIC_ADMIN_URL || "#"} target={process.env.NEXT_PUBLIC_ADMIN_URL ? "_blank" : undefined} rel={process.env.NEXT_PUBLIC_ADMIN_URL ? "noopener noreferrer" : undefined}>Admin Portal</Link>
             </Button>
             <Button
-              className="bg-gradient-to-r from-primary to-primary/90 hover:shadow-lg hover:scale-105 transition-all duration-300 font-semibold gap-2"
+              className="bg-primary text-primary-foreground hover:bg-primary/90 hover:brightness-110 font-semibold gap-2 shadow-md hover:shadow-lg transition-all duration-200"
               size="sm"
               asChild
             >
@@ -139,7 +139,7 @@ export function Navbar() {
                     key={link.href}
                     href={link.href}
                     onClick={() => setIsOpen(false)}
-                    className="text-foreground/80 hover:text-primary transition-colors text-lg font-semibold"
+                    className="py-2 px-3 rounded-lg text-foreground hover:text-primary hover:bg-primary/15 transition-colors text-lg font-semibold"
                   >
                     {link.label}
                   </Link>

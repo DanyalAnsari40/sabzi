@@ -90,9 +90,9 @@ export default function BuyerPortal() {
         <section className="py-12 md:py-20 bg-gradient-to-br from-primary/10 to-secondary/10">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center animate-fade-in-down">
-              <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">Buyer Portal</h1>
+              <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">Seller Portal</h1>
               <p className="text-lg text-foreground/60 max-w-2xl mx-auto">
-                Manage your orders, track shipments, and request quotes all in one place
+                Manage your listings, orders, and quotes all in one place
               </p>
             </div>
           </div>

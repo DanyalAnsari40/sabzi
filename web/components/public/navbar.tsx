@@ -33,27 +33,28 @@ export function Navbar() {
 
   return (
     <nav
-      className={`sticky top-0 z-50 transition-all duration-300 ${
+      className={`sticky top-0 z-50 w-full min-w-0 transition-all duration-300 ${
         isScrolled
           ? "border-b border-border/50 bg-background/80 backdrop-blur-xl shadow-lg"
           : "border-b border-transparent bg-gradient-to-b from-background via-background to-transparent"
       }`}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-24 md:h-20">
-          {/* Logo with Animation */}
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center gap-2 min-h-14 h-14 sm:h-16 md:h-20">
+          {/* Logo – always show icon + Sabzi on mobile */}
           <Link
             href="/"
-            className="flex items-center gap-3 group animate-fade-in-left"
+            className="flex items-center gap-2 sm:gap-3 group animate-fade-in-left min-w-0 flex-shrink-0"
+            aria-label="Sabzi home"
           >
-            <div className="p-2.5 bg-gradient-to-br from-primary via-primary to-primary/80 rounded-xl shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-110">
-              <Leaf className="w-6 h-6 text-white" />
+            <div className="p-2 sm:p-2.5 bg-gradient-to-br from-primary via-primary to-primary/80 rounded-xl shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-105 flex-shrink-0">
+              <Leaf className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
             </div>
-            <div className="hidden sm:flex flex-col">
-              <span className="text-lg font-bold bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
+            <div className="flex flex-col min-w-0">
+              <span className="text-base sm:text-lg font-bold bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent truncate">
                 Sabzi
               </span>
-              <span className="text-xs font-medium text-primary/70">Halal Meat, Vegetables & Fruits</span>
+              <span className="hidden sm:block text-xs font-medium text-primary/70 truncate">Halal Meat, Vegetables & Fruits</span>
             </div>
           </Link>
 
@@ -94,7 +95,7 @@ export function Navbar() {
             <Button variant="ghost" size="sm" className="gap-2 font-semibold text-foreground hover:text-primary hover:bg-primary/15 transition-colors duration-200" asChild>
               <Link href="/buyer-portal">
                 <User className="w-4 h-4" />
-                Buyer Portal
+                Seller Portal
               </Link>
             </Button>
             <Button
@@ -117,75 +118,86 @@ export function Navbar() {
             </Button>
           </div>
 
-          {/* Mobile Navigation */}
-          <Sheet open={isOpen} onOpenChange={setIsOpen}>
-            <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="lg:hidden hover:bg-primary/10">
-                {isOpen ? (
-                  <X className="w-6 h-6 text-primary" />
-                ) : (
-                  <Menu className="w-6 h-6 text-primary" />
-                )}
-              </Button>
-            </SheetTrigger>
-            <SheetContent
-              side="right"
-              className="w-72 bg-gradient-to-b from-background to-background/95 border-l border-border/50"
-            >
-              <div className="flex flex-col gap-6 mt-12">
-                {/* Mobile Links */}
-                {links.map((link) => (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    onClick={() => setIsOpen(false)}
-                    className="py-2 px-3 rounded-lg text-foreground hover:text-primary hover:bg-primary/15 transition-colors text-lg font-semibold"
-                  >
-                    {link.label}
-                  </Link>
-                ))}
-
-                {/* Divider */}
-                <div className="border-t border-border/30" />
-
-                {/* Mobile Actions */}
-                <div className="space-y-3 pt-2">
-                  {mounted && (
-                    <Button
-                      variant="ghost"
-                      className="w-full justify-start gap-2"
-                      onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                    >
-                      {theme === "dark" ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-                      {theme === "dark" ? "Light mode" : "Dark mode"}
-                    </Button>
+          {/* Mobile: hamburger + tap-friendly trigger */}
+          <div className="flex items-center gap-1 lg:hidden flex-shrink-0">
+            <Sheet open={isOpen} onOpenChange={setIsOpen}>
+              <SheetTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-11 w-11 rounded-lg hover:bg-primary/15 active:bg-primary/20 touch-manipulation"
+                  aria-label={isOpen ? "Close menu" : "Open menu"}
+                  aria-expanded={isOpen}
+                >
+                  {isOpen ? (
+                    <X className="w-6 h-6 text-primary" />
+                  ) : (
+                    <Menu className="w-6 h-6 text-primary" />
                   )}
-                  <Button variant="ghost" className="w-full justify-start gap-2 font-semibold" asChild>
-                    <Link href="/buyer-portal" onClick={() => setIsOpen(false)}>
-                      <User className="w-5 h-5" />
-                      Buyer Portal
+                </Button>
+              </SheetTrigger>
+              <SheetContent
+                side="right"
+                className="w-[min(20rem,100vw-2rem)] max-w-full sm:w-80 bg-background border-l border-border/50 p-0 flex flex-col overflow-hidden"
+              >
+                <div className="flex flex-col overflow-y-auto flex-1 py-6 px-4 gap-1">
+                  <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider px-3 pb-2">
+                    Menu
+                  </p>
+                  {links.map((link) => (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      onClick={() => setIsOpen(false)}
+                      className="py-3 px-3 rounded-lg text-foreground hover:text-primary hover:bg-primary/10 active:bg-primary/15 transition-colors text-base font-semibold touch-manipulation"
+                    >
+                      {link.label}
                     </Link>
-                  </Button>
-                  <Button
-                    variant="outline"
-                    className="w-full border-primary/30 hover:bg-primary/5 font-semibold"
-                    asChild
-                  >
-                    <Link href={process.env.NEXT_PUBLIC_ADMIN_URL || "#"} target={process.env.NEXT_PUBLIC_ADMIN_URL ? "_blank" : undefined} rel={process.env.NEXT_PUBLIC_ADMIN_URL ? "noopener noreferrer" : undefined} onClick={() => setIsOpen(false)}>Admin Portal</Link>
-                  </Button>
-                  <Button
-                    className="w-full bg-gradient-to-r from-primary to-primary/90 hover:shadow-lg font-semibold"
-                    asChild
-                  >
-                    <Link href="/request-quote" className="gap-2" onClick={() => setIsOpen(false)}>
-                      Request Quote
-                      <ArrowRight className="w-4 h-4" />
-                    </Link>
-                  </Button>
+                  ))}
+
+                  <div className="border-t border-border/50 my-4" />
+
+                  <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider px-3 pb-2">
+                    Account & actions
+                  </p>
+                  <div className="flex flex-col gap-1">
+                    {mounted && (
+                      <Button
+                        variant="ghost"
+                        className="w-full justify-start gap-3 h-12 rounded-lg font-semibold"
+                        onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+                      >
+                        {theme === "dark" ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+                        {theme === "dark" ? "Light mode" : "Dark mode"}
+                      </Button>
+                    )}
+                    <Button variant="ghost" className="w-full justify-start gap-3 h-12 rounded-lg font-semibold" asChild>
+                      <Link href="/buyer-portal" onClick={() => setIsOpen(false)}>
+                        <User className="w-5 h-5" />
+                        Seller Portal
+                      </Link>
+                    </Button>
+                    <Button
+                      variant="outline"
+                      className="w-full justify-start gap-3 h-12 rounded-lg font-semibold border-primary/40"
+                      asChild
+                    >
+                      <Link href={process.env.NEXT_PUBLIC_ADMIN_URL || "#"} target={process.env.NEXT_PUBLIC_ADMIN_URL ? "_blank" : undefined} rel={process.env.NEXT_PUBLIC_ADMIN_URL ? "noopener noreferrer" : undefined} onClick={() => setIsOpen(false)}>Admin Portal</Link>
+                    </Button>
+                    <Button
+                      className="w-full justify-center gap-2 h-12 rounded-lg font-semibold bg-primary text-primary-foreground hover:bg-primary/90"
+                      asChild
+                    >
+                      <Link href="/request-quote" className="gap-2" onClick={() => setIsOpen(false)}>
+                        Request Quote
+                        <ArrowRight className="w-4 h-4" />
+                      </Link>
+                    </Button>
+                  </div>
                 </div>
-              </div>
-            </SheetContent>
-          </Sheet>
+              </SheetContent>
+            </Sheet>
+          </div>
         </div>
       </div>
     </nav>

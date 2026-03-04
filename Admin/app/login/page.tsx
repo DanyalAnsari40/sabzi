@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -17,7 +17,7 @@ const ERROR_MESSAGES: Record<string, string> = {
   server: 'Something went wrong. Please try again.',
 };
 
-export default function AdminLogin() {
+function AdminLoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [email, setEmail] = useState('admin@wholegrains.com');
@@ -199,5 +199,31 @@ export default function AdminLogin() {
         </p>
       </div>
     </div>
+  );
+}
+
+function LoginFallback() {
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-background to-primary/5">
+      <div className="w-full max-w-md px-4">
+        <Card className="p-8 border-0 shadow-2xl bg-white/95 backdrop-blur-sm animate-pulse">
+          <div className="h-10 bg-muted rounded mb-6" />
+          <div className="h-4 bg-muted rounded w-2/3 mb-8" />
+          <div className="space-y-4">
+            <div className="h-12 bg-muted rounded" />
+            <div className="h-12 bg-muted rounded" />
+            <div className="h-12 bg-muted rounded" />
+          </div>
+        </Card>
+      </div>
+    </div>
+  );
+}
+
+export default function AdminLogin() {
+  return (
+    <Suspense fallback={<LoginFallback />}>
+      <AdminLoginForm />
+    </Suspense>
   );
 }
